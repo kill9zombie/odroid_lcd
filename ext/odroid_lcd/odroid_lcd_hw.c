@@ -123,7 +123,7 @@ static VALUE odlcd_system_init(VALUE self) {
 
 void Init_odroid_lcd_hw() {
   VALUE mOdroidLCD;
-  VALUE cOdroidLCD;
+  VALUE cOdroidLCD_HW;
 
   mOdroidLCD = rb_define_module("OdroidLCD");
   cOdroidLCD_HW = rb_define_class_under(mOdroidLCD, "HW", rb_cObject);
