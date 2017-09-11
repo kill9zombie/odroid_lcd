@@ -9,17 +9,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
- 
+
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
- 
+
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
 #include <wiringSerial.h>
 #include <lcd.h>
 
- 
+
 //------------------------------------------------------------------------------------------------------------
 //
 // WiringPi LCD defines
@@ -51,8 +51,8 @@ static VALUE odlcd_init(VALUE self) {
 
   // We store the wiringPi lcdHandle in an instance variable.
   rb_iv_set(self, "@lcd_handle", lcd_handle);
-  
-  return self; 
+
+  return self;
 }
 
 static VALUE odlcd_max_column(VALUE self) {
@@ -107,12 +107,12 @@ static VALUE odlcd_set_character(VALUE self, VALUE row, VALUE column, VALUE char
 //------------------------------------------------------------------------------------------------------------
 static VALUE odlcd_system_init(VALUE self) {
     int lcdHandle = 0;
- 
-    // LCD Init   
+
+    // LCD Init
     lcdHandle = lcdInit (LCD_ROW, LCD_COL, LCD_BUS,
                          PORT_LCD_RS, PORT_LCD_E,
                          PORT_LCD_D4, PORT_LCD_D5, PORT_LCD_D6, PORT_LCD_D7, 0, 0, 0, 0);
- 
+
     if(lcdHandle < 0)   {
         rb_raise(rb_eRuntimeError, "%s : lcdInit failed!\n", __func__);
     }
@@ -120,18 +120,20 @@ static VALUE odlcd_system_init(VALUE self) {
 }
 
 //------------------------------------------------------------------------------------------------------------
-VALUE cOdroidlcd;
 
-void Init_Odroidlcd() {
-  cOdroidlcd = rb_define_class("Odroidlcd", rb_cObject);
-  rb_define_method(cOdroidlcd, "initialize", odlcd_init, 0);
-  rb_define_method(cOdroidlcd, "clear", odlcd_clear, 0);
-  rb_define_method(cOdroidlcd, "max_column", odlcd_max_column, 0);
-  rb_define_method(cOdroidlcd, "max_row", odlcd_max_row, 0);
-  rb_define_method(cOdroidlcd, "set_character", odlcd_set_character, 3);
-  rb_define_private_method(cOdroidlcd, "system_init", odlcd_system_init, 0);
-} 
+void Init_odroid_lcd_hw() {
+  VALUE mOdroidLCD;
+  VALUE cOdroidLCD;
 
- 
+  mOdroidLCD = rb_define_module("OdroidLCD");
+  cOdroidLCD_HW = rb_define_class_under(mOdroidLCD, "HW", rb_cObject);
+  rb_define_method(cOdroidLCD_HW, "initialize", odlcd_init, 0);
+  rb_define_method(cOdroidLCD_HW, "clear", odlcd_clear, 0);
+  rb_define_method(cOdroidLCD_HW, "max_column", odlcd_max_column, 0);
+  rb_define_method(cOdroidLCD_HW, "max_row", odlcd_max_row, 0);
+  rb_define_method(cOdroidLCD_HW, "set_character", odlcd_set_character, 3);
+  rb_define_private_method(cOdroidLCD_HW, "system_init", odlcd_system_init, 0);
+}
+
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------

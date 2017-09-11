@@ -4,4 +4,4 @@ have_library('pthread')
 have_library('wiringPi')
 have_library('wiringPiDev')
 
-create_makefile('Odroidlcd')
+create_makefile('odroid_lcd/hw')
