@@ -2,8 +2,8 @@
 module OdroidLCD
   class LCD
 
-    attr_reader @max_column
-    attr_reader @max_row
+    attr_reader :max_column
+    attr_reader :max_row
 
     def initialize(mocks: {})
       @hw = mocks[:odroidlcd_hw] || OdroidLCD::HW.new

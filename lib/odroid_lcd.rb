@@ -1,8 +1,8 @@
 
-require_relative 'odroid_lcd/hw'
-require_relative "odroid_lcd/lcd"
-require_relative "odroid_lcd/cli"
+require 'odroid_lcd/hw'
+require "odroid_lcd/lcd"
+require "odroid_lcd/cli"
 
 module OdroidLCD
-  VERSION = "0.0.2"
 end
+
