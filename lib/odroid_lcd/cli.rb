@@ -10,14 +10,19 @@ module OdroidLCD
 
       # If we're testing via the command line, set the mock rather than LCD.
       @lcd = if @options[:test]
-        mock_hw = mocks.merge({odroidlcd_hw: OdroidLCD::HWMock.new})
+        @hw_mock = OdroidLCD::HWMock.new
+        mock_hw = mocks.merge({odroidlcd_hw: @hw_mock})
         OdroidLCD::LCD.new(mocks: mock_hw)
       else
-        mocks[:lcd] || OdroidLCD::LCD.new(mocks: mocks)
+        OdroidLCD::LCD.new(mocks: mocks)
       end
+
+      # set the default text alignment
+      @align = @options[:align] || "left"
 
       freeze()
     end
+
 
     def run
       lines = if @options.has_key?(:file)
@@ -26,46 +31,43 @@ module OdroidLCD
         @argv[0,2].map {|line| line.chomp }
       end
 
-      mode = @options[:split] == true ? :split : :trim
-      @lcd.set_lines(lines: lines, mode: mode)
+      @lcd.set_lines(lines: lines, align: @align)
 
-
-      string = @argv[0]
-
-      rows = @argv[0].lines.map{|l| l.chomp }
-      if rows.length > 1
-        @lcd.set_string(row: 0, string: rows[0])
-        @lcd.set_string(row: 1, string: rows[1])
-      else
-        @lcd.set_string(row: 0, string: rows[0])
+      if @options[:test]
+        show_mocked_lcd()
       end
-
     end
+
+    def show_mocked_lcd
+      puts "[#{@hw_mock.get(row: 0).join}]"
+      puts "[#{@hw_mock.get(row: 1).join}]"
+    end
+
 
     def parse_arguments(argv)
       options = {}
       OptionParser.new do |opts|
         opts.banner = "Usage: odroid-lcd [options] [first line] [second line]"
 
-        opts.on("--file [FILE]", String, "Read content from a file") do |x|
+        opts.on("-f", "--file=FILE", String, "Read content from a file") do |x|
+          if x == nil
+            puts opts
+            exit 2
+          end
           options[:file] = x
         end
 
-        opts.on("--test", "Test (not on an odroid)") do |x|
+        opts.on("--test", "Dry run test (does not update the screen)") do |x|
           options[:test] = x
         end
 
-        # opts.on("--split", "Split long lines rather than trimming.") do |x|
-        #   options[:split] = x
-        # end
-
-        # opts.on("-l", "--loading [PHRASE]", String, "Display a loading screen") do |x|
-        #   options[:loading_phrase] = x
-        # end
-
-        # opts.on("-p", "--percent [PERCENT]", Integer, "While loading, display a percent complete.") do |x|
-        #   options[:loading_percent] = x
-        # end
+        opts.on("--align=ALIGN", String, "Align text: left, right, center") do |x|
+          if x == nil
+            puts opts
+            exit 2
+          end
+          options[:align] = x
+        end
 
         opts.on("-h", "--help", "Prints this help") do
           puts opts

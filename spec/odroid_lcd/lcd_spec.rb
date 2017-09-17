@@ -11,7 +11,7 @@ describe "OdroidLCD::LCD" do
     lcd.set_string(row: 0, string: "/test\\")
 
     # The Hitachi LCD display displays backslashes as the yen sign.
-    expect(hw_mock.get(row: 0)).to eq ["/", "t", "e", "s", "t", "¥", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+    expect(hw_mock.get(row: 0)).to eq ["/", "t", "e", "s", "t", "¥", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
   end
 
@@ -25,11 +25,11 @@ describe "OdroidLCD::LCD" do
     expect(hw_mock.get(row: 1)).to eq []
 
     lcd.set_string(row: 0, string: "alice")
-    expect(hw_mock.get(row: 0)).to eq ["a", "l", "i", "c", "e", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+    expect(hw_mock.get(row: 0)).to eq ["a", "l", "i", "c", "e", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
     expect(hw_mock.get(row: 1)).to eq []
 
     lcd.set_string(row: 1, string: "bob")
-    expect(hw_mock.get(row: 0)).to eq ["a", "l", "i", "c", "e", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
-    expect(hw_mock.get(row: 1)).to eq ["b", "o", "b", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+    expect(hw_mock.get(row: 0)).to eq ["a", "l", "i", "c", "e", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+    expect(hw_mock.get(row: 1)).to eq ["b", "o", "b", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
   end
 end
