@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'odroid_lcd'
-  s.version     = '0.0.4'
+  s.version     = '0.1.0'
   s.summary     = "LCD screen utils for the Hardkernel Odroid C2"
   s.description = "Allows writing strings to the LCD screen accessory, see: https://wiki.odroid.com/accessory/display/16x2_lcd_io_shield/c/start"
   s.authors     = ["Phil Helliwell"]
@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
   s.executables << 'odroid-lcd'
   s.requirements << 'WiringPi patched by Hardkernel, see: https://wiki.odroid.com/accessory/display/16x2_lcd_io_shield/c/start'
+  s.add_development_dependency 'rspec', '~> 3.6'
 end

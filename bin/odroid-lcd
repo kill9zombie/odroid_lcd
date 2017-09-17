@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'odroid_lcd'
+require_relative '../lib/odroid_lcd'
 
-cli = OdroidLCD::CLI.new
-cli.run(ARGV)
+cli = OdroidLCD::CLI.new(ARGV)
+cli.run()
